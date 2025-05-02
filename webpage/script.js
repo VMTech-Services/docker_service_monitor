@@ -1,18 +1,18 @@
+
 const main = document.getElementById('main');
 const containersMap = new Map();
 
-// Функция для создания или обновления карточки контейнера
 function upsertContainer(c) {
     let elem = containersMap.get(c.id);
+
     if (!elem) {
-        // создаём новую карточку
         elem = document.createElement('div');
         elem.className = 'container';
         elem.dataset.id = c.id;
         containersMap.set(c.id, elem);
         main.appendChild(elem);
     }
-    // наполняем содержимым
+
     elem.innerHTML = `
     <div class="header-field">
       <span class="label">${c.name}</span>
@@ -20,40 +20,42 @@ function upsertContainer(c) {
     </div>
     <div class="body-field">
       <div><strong>Image:</strong> ${c.image}</div>
-      <div><strong>Command:</strong> ${c.command}</div>
       <div><strong>Created:</strong> ${new Date(c.created).toLocaleString()}</div>
-      <div><strong>Status:</strong> ${c.status}</div>
-      <div><strong>Exit Code:</strong> ${c.exitCode}</div>
-      <div><strong>Ports:</strong> ${formatPorts(c.ports)}</div>
-      <div><strong>Mounts:</strong> ${formatMounts(c.mounts)}</div>
+      <div><strong>Uptime:</strong> ${formatRunningFor(c.runningFor)}</div>
     </div>
   `;
 }
 
-function formatPorts(ports) {
-    if (!ports) return '-';
-    return Object.entries(ports)
-        .map(([containerPort, mappings]) =>
-            mappings
-                ? mappings.map(m => `${m.HostIp}:${m.HostPort}->${containerPort}`).join(', ')
-                : `:${containerPort}`
-        )
-        .join('; ');
+function removeContainer(id) {
+    const elem = containersMap.get(id);
+    if (elem) {
+        elem.remove();
+        containersMap.delete(id);
+    }
 }
 
-function formatMounts(mounts) {
-    if (!mounts || mounts.length === 0) return '-';
-    return mounts.map(m => `${m.source}:${m.dest} (${m.mode})`).join(', ');
+function formatRunningFor(sec) {
+    if (sec <= 0) return '-';
+    const h = Math.floor(sec / 3600).toString().padStart(2, '0');
+    const m = Math.floor((sec % 3600) / 60).toString().padStart(2, '0');
+    const s = Math.floor(sec % 60).toString().padStart(2, '0');
+    return `${h}:${m}:${s}`;
 }
 
-// Открываем WS и подписываемся на сообщения
 const ws = new WebSocket(`ws://${location.host}`);
 ws.onmessage = evt => {
     const msg = JSON.parse(evt.data);
-    if (msg.type === 'initial') {
-        msg.data.forEach(upsertContainer);
-    } else if (msg.type === 'update') {
-        upsertContainer(msg.data);
+    switch (msg.type) {
+        case 'initial':
+            msg.data.forEach(upsertContainer);
+            break;
+        case 'add':
+        case 'update':
+            upsertContainer(msg.data);
+            break;
+        case 'remove':
+            removeContainer(msg.id);
+            break;
     }
 };
 ws.onerror = console.error;
