@@ -4,6 +4,6 @@ services:
   docker_service_monitor:
     build: .
     container_name: docker_service_monitor
-    restart: never
+    restart: no
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
