@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+  docker_service_monitor:
+    build: .
+    container_name: docker_service_monitor
+    restart: always
