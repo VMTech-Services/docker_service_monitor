@@ -42,59 +42,64 @@ main {
     flex-direction: column;
     align-items: start;
     gap: 0.5em;
+
     .container {
-        border: solid 2px var(--docker-color);
-        width: fit-content;
-        border-radius: 5em;
-        padding: 0.1em 0.5em;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin: 0.5em;
+        padding: 0.75em;
+        max-width: 400px;
+    }
 
-        .header-field {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            gap: 0.5em;
+    .header-field {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
-            .label {}
+    .label {
+        font-weight: bold;
+        font-size: 1.1em;
+    }
 
-            .status-indicator {
-                display: inline-block;
-                padding: 0.25em 0.5em;
-                border-radius: 1em;
-                font-weight: 500;
-                text-transform: uppercase;
-                text-align: center;
-                color: white;
+    .status-indicator {
+        padding: 0.2em 0.6em;
+        border-radius: 0.3em;
+        color: white;
 
-                &.created {
-                    background-color: #6c757d;
-                }
-
-                &.running {
-                    background-color: #28a745;
-                }
-
-                &.paused {
-                    background-color: #ffc107;
-                    color: #212529;
-                }
-
-                &.restarting {
-                    background-color: #17a2b8;
-                }
-
-                &.exited {
-                    background-color: #dc3545;
-                }
-
-                &.dead {
-                    background-color: #343a40;
-                }
-
-                &.removing {
-                    background-color: #6610f2;
-                }
-
-            }
+        &.created {
+            background: #6c757d;
         }
+
+        &.running {
+            background: #28a745;
+        }
+
+        &.paused {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        &.restarting {
+            background: #17a2b8;
+        }
+
+        &.exited {
+            background: #dc3545;
+        }
+
+        &.dead {
+            background: #343a40;
+        }
+
+        &.removing {
+            background: #6610f2;
+        }
+    }
+
+    .body-field {
+        margin-top: 0.5em;
+        font-size: 0.9em;
+        line-height: 1.4;
     }
 }

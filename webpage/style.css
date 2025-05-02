@@ -39,47 +39,52 @@ main {
   gap: 0.5em;
 }
 main .container {
-  border: solid 2px var(--docker-color);
-  width: fit-content;
-  border-radius: 5em;
-  padding: 0.1em 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin: 0.5em;
+  padding: 0.75em;
+  max-width: 400px;
 }
-main .container .header-field {
+main .header-field {
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.5em;
 }
-main .container .header-field .status-indicator {
-  display: inline-block;
-  padding: 0.25em 0.5em;
-  border-radius: 1em;
-  font-weight: 500;
-  text-transform: uppercase;
-  text-align: center;
+main .label {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+main .status-indicator {
+  padding: 0.2em 0.6em;
+  border-radius: 0.3em;
   color: white;
 }
-main .container .header-field .status-indicator.created {
-  background-color: #6c757d;
+main .status-indicator.created {
+  background: #6c757d;
 }
-main .container .header-field .status-indicator.running {
-  background-color: #28a745;
+main .status-indicator.running {
+  background: #28a745;
 }
-main .container .header-field .status-indicator.paused {
-  background-color: #ffc107;
+main .status-indicator.paused {
+  background: #ffc107;
   color: #212529;
 }
-main .container .header-field .status-indicator.restarting {
-  background-color: #17a2b8;
+main .status-indicator.restarting {
+  background: #17a2b8;
 }
-main .container .header-field .status-indicator.exited {
-  background-color: #dc3545;
+main .status-indicator.exited {
+  background: #dc3545;
 }
-main .container .header-field .status-indicator.dead {
-  background-color: #343a40;
+main .status-indicator.dead {
+  background: #343a40;
 }
-main .container .header-field .status-indicator.removing {
-  background-color: #6610f2;
+main .status-indicator.removing {
+  background: #6610f2;
+}
+main .body-field {
+  margin-top: 0.5em;
+  font-size: 0.9em;
+  line-height: 1.4;
 }
 
 /*# sourceMappingURL=style.css.map */
