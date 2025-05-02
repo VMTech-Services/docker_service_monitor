@@ -7,7 +7,9 @@ const docker = new Docker({ socketPath: '/var/run/docker.sock' });
 
 const PORT = process.env.PORT || 3000;
 
-app.use(express.static(path.join(__dirname, 'webpage')));
+app.get('/', path.join(__dirname, 'webpage', 'index.html'))
+
+app.use('/', express.static(path.join(__dirname, 'webpage')));
 
 app.get('/containers', async (req, res) => {
     try {
