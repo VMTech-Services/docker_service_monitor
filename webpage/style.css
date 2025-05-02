@@ -1,0 +1,85 @@
+:root {
+  font-family: Arial, Helvetica, sans-serif;
+  --docker-color: #1794D4;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+  padding: 1em;
+}
+
+header {
+  height: 3em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+  border: solid 2px var(--docker-color);
+  width: fit-content;
+  border-radius: 5em;
+  padding: 0.1em 0.5em;
+}
+header img {
+  display: block;
+  height: 2em;
+  object-fit: cover;
+}
+header h1 {
+  font-size: 1.5em;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.5em;
+}
+main .container {
+  border: solid 2px var(--docker-color);
+  width: fit-content;
+  border-radius: 5em;
+  padding: 0.1em 0.5em;
+}
+main .container .header-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5em;
+}
+main .container .header-field .status-indicator {
+  display: inline-block;
+  padding: 0.25em 0.5em;
+  border-radius: 1em;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-align: center;
+  color: white;
+}
+main .container .header-field .status-indicator.created {
+  background-color: #6c757d;
+}
+main .container .header-field .status-indicator.running {
+  background-color: #28a745;
+}
+main .container .header-field .status-indicator.paused {
+  background-color: #ffc107;
+  color: #212529;
+}
+main .container .header-field .status-indicator.restarting {
+  background-color: #17a2b8;
+}
+main .container .header-field .status-indicator.exited {
+  background-color: #dc3545;
+}
+main .container .header-field .status-indicator.dead {
+  background-color: #343a40;
+}
+main .container .header-field .status-indicator.removing {
+  background-color: #6610f2;
+}
+
+/*# sourceMappingURL=style.css.map */

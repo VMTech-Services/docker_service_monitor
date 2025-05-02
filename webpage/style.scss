@@ -1,0 +1,100 @@
+:root {
+    font-family: Arial, Helvetica, sans-serif;
+    --docker-color: #1794D4;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1em;
+    padding: 1em;
+}
+
+header {
+    height: 3em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+
+    border: solid 2px var(--docker-color);
+
+    width: fit-content;
+
+    border-radius: 5em;
+    padding: 0.1em 0.5em;
+
+    img {
+        display: block;
+        height: 2em;
+        object-fit: cover;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 0.5em;
+    .container {
+        border: solid 2px var(--docker-color);
+        width: fit-content;
+        border-radius: 5em;
+        padding: 0.1em 0.5em;
+
+        .header-field {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.5em;
+
+            .label {}
+
+            .status-indicator {
+                display: inline-block;
+                padding: 0.25em 0.5em;
+                border-radius: 1em;
+                font-weight: 500;
+                text-transform: uppercase;
+                text-align: center;
+                color: white;
+
+                &.created {
+                    background-color: #6c757d;
+                }
+
+                &.running {
+                    background-color: #28a745;
+                }
+
+                &.paused {
+                    background-color: #ffc107;
+                    color: #212529;
+                }
+
+                &.restarting {
+                    background-color: #17a2b8;
+                }
+
+                &.exited {
+                    background-color: #dc3545;
+                }
+
+                &.dead {
+                    background-color: #343a40;
+                }
+
+                &.removing {
+                    background-color: #6610f2;
+                }
+
+            }
+        }
+    }
+}
