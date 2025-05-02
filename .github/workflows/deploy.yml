@@ -1,0 +1,43 @@
+name: docker-service-monitor deploy
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.repository }}-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Build & deploy with docker-compose
+    runs-on: [self-hosted, windows]
+    env:
+      COMPOSE_PROJECT_NAME: docker_service_monitor
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+
+      - name: Stop and remove existing containers
+        shell: powershell
+        run: |
+          docker-compose down --remove-orphans
+
+      - name: Build and start new container
+        shell: powershell
+        run: |
+          docker-compose up --build -d
+
+      - name: Verify container is running
+        shell: powershell
+        run: |
+          Start-Sleep -Seconds 5
+          $status = docker inspect -f '{{.State.Status}}' docker_service_monitor
+          if ($status.Trim() -eq 'running') {
+            Write-Host "Container is running."
+          } else {
+            Write-Error "Container failed to start. Status: $status"
+            exit 1
+          }
