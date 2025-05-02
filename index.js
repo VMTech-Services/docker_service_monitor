@@ -13,12 +13,6 @@ app.use('/', express.static(path.join(__dirname, 'webpage')));
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-function calcRunningFor(startedAt) {
-    const start = new Date(startedAt).getTime();
-    const now = Date.now();
-    return Math.floor((now - start) / 1000);
-}
-
 async function simplifyContainerInfo(inspectData) {
     const { Id, Name, Config, Created, State } = inspectData;
     return {

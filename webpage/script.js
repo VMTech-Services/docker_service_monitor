@@ -32,7 +32,7 @@ function upsertContainer(c) {
     elem.querySelector('.label').innerText = data.name;
     const statusEl = elem.querySelector('.status-indicator');
     statusEl.className = `status-indicator ${data.state}`;
-    statusEl.innerText = data.state;
+    statusEl.title = data.state.charAt(0).toUpperCase() + data.state.slice(1);
 
     elem.querySelector('.val-image').innerText = data.image;
     elem.querySelector('.val-created').innerText = new Date(data.created).toLocaleString();
@@ -64,7 +64,7 @@ setInterval(() => {
     });
 }, 1000);
 
-const ws = new WebSocket(`ws://${location.host}`);
+const ws = new WebSocket(`ws://192.168.88.3:1280`); //${location.host}
 ws.onmessage = evt => {
     const msg = JSON.parse(evt.data);
     switch (msg.type) {

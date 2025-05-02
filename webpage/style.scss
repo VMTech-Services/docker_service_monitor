@@ -3,12 +3,18 @@
     --docker-color: #1794D4;
 }
 
+html,
+body {
+    height: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1em;
-    padding: 1em;
 }
 
 header {
@@ -17,14 +23,12 @@ header {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 1em;
+    gap: 0.5em;
 
-    border: solid 2px var(--docker-color);
-
-    width: fit-content;
-
-    border-radius: 5em;
-    padding: 0.1em 0.5em;
+    border-bottom: solid 3px var(--docker-color);
+    width: 100%;
+    background-color: #212529;
+    color: #fff;
 
     img {
         display: block;
@@ -42,12 +46,15 @@ main {
     flex-direction: column;
     align-items: start;
     gap: 0.5em;
-    flex: 1;
+
+    flex: 1 0 auto;
 
     .container {
-        border: 1px solid #ccc;
-        border-radius: 4px;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 0.75em;
         padding: 0.75em;
+        width: 100%;
 
         .header-field {
             display: flex;
@@ -58,13 +65,13 @@ main {
             .label {
                 font-weight: bold;
                 font-size: 1.1em;
-                text-transform: capitalize;
             }
 
             .status-indicator {
-                padding: 0.2em 0.6em;
-                border-radius: 0.3em;
+                padding: 0.5em;
+                border-radius: 0.5em;
                 color: white;
+                text-transform: uppercase;
 
                 &.created {
                     background: #6c757d;
@@ -102,5 +109,27 @@ main {
             font-size: 0.9em;
             line-height: 1.4;
         }
+    }
+}
+
+footer {
+    box-sizing: border-box;
+    flex-shrink: 0;
+    width: 100%;
+    background-color: #212529;
+    color: #fff;
+    padding: 0.5em;
+
+    display: flex;
+    flex-direction: row;
+    gap: 0.25em;
+
+    .vm {
+        display: flex;
+        flex-direction: row;
+    }
+
+    @media (max-width:700px) {
+        justify-content: center;
     }
 }
