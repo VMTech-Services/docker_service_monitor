@@ -6,7 +6,7 @@ services:
     container_name: main
     restart: always
     ports:
-      - "6000:3000"
+      - "3000:6000"
     environment:
       - PORT=3000
     volumes:
