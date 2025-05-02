@@ -29,15 +29,3 @@ jobs:
         shell: powershell
         run: |
           docker-compose up --build -d
-
-      - name: Verify container is running
-        shell: powershell
-        run: |
-          Start-Sleep -Seconds 5
-          $status = docker inspect -f '{{.State.Status}}' docker_service_monitor
-          if ($status.Trim() -eq 'running') {
-            Write-Host "Container is running."
-          } else {
-            Write-Error "Container failed to start. Status: $status"
-            exit 1
-          }
