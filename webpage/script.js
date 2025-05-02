@@ -64,7 +64,7 @@ setInterval(() => {
     });
 }, 1000);
 
-const ws = new WebSocket(`ws://192.168.88.3:1280`); //${location.host}
+const ws = new WebSocket(`ws://${location.host}`);
 ws.onmessage = evt => {
     const msg = JSON.parse(evt.data);
     switch (msg.type) {
