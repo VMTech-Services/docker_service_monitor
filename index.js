@@ -25,9 +25,10 @@ async function simplifyContainerInfo(inspectData) {
         id: Id,
         name: Name.replace('/', ''),
         image: Config.Image,
+        state: State.Status,
         created: Created,
         runningFor: State.Status === 'running'
-            ? calcRunningFor(State.StartedAt)
+            ? Math.floor((Date.now() - new Date(State.StartedAt).getTime()) / 1000)
             : 0
     };
 }

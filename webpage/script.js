@@ -1,35 +1,48 @@
-
 const main = document.getElementById('main');
 const containersMap = new Map();
 
 function upsertContainer(c) {
-    let elem = containersMap.get(c.id);
+    let record = containersMap.get(c.id);
 
-    if (!elem) {
-        elem = document.createElement('div');
+    if (!record) {
+        const elem = document.createElement('div');
         elem.className = 'container';
         elem.dataset.id = c.id;
-        containersMap.set(c.id, elem);
+
+        elem.innerHTML = `
+      <div class="header-field">
+        <span class="label"></span>
+        <span class="status-indicator"></span>
+      </div>
+      <div class="body-field">
+        <div><strong>Image:</strong> <span class="val-image"></span></div>
+        <div><strong>Created:</strong> <span class="val-created"></span></div>
+        <div><strong>Uptime:</strong> <span class="val-uptime"></span></div>
+      </div>
+    `;
         main.appendChild(elem);
+
+        record = { elem, data: {} };
+        containersMap.set(c.id, record);
     }
 
-    elem.innerHTML = `
-    <div class="header-field">
-      <span class="label">${c.name}</span>
-      <span class="status-indicator ${c.state}">${c.state}</span>
-    </div>
-    <div class="body-field">
-      <div><strong>Image:</strong> ${c.image}</div>
-      <div><strong>Created:</strong> ${new Date(c.created).toLocaleString()}</div>
-      <div><strong>Uptime:</strong> ${formatRunningFor(c.runningFor)}</div>
-    </div>
-  `;
+    record.data = { ...c };
+
+    const { elem, data } = record;
+    elem.querySelector('.label').innerText = data.name;
+    const statusEl = elem.querySelector('.status-indicator');
+    statusEl.className = `status-indicator ${data.state}`;
+    statusEl.innerText = data.state;
+
+    elem.querySelector('.val-image').innerText = data.image;
+    elem.querySelector('.val-created').innerText = new Date(data.created).toLocaleString();
+    elem.querySelector('.val-uptime').innerText = formatRunningFor(data.runningFor);
 }
 
 function removeContainer(id) {
-    const elem = containersMap.get(id);
-    if (elem) {
-        elem.remove();
+    const record = containersMap.get(id);
+    if (record) {
+        record.elem.remove();
         containersMap.delete(id);
     }
 }
@@ -41,6 +54,15 @@ function formatRunningFor(sec) {
     const s = Math.floor(sec % 60).toString().padStart(2, '0');
     return `${h}:${m}:${s}`;
 }
+
+setInterval(() => {
+    containersMap.forEach(({ elem, data }) => {
+        if (data.state === 'running') {
+            data.runningFor++;
+            elem.querySelector('.val-uptime').innerText = formatRunningFor(data.runningFor);
+        }
+    });
+}, 1000);
 
 const ws = new WebSocket(`ws://${location.host}`);
 ws.onmessage = evt => {
