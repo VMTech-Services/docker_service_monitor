@@ -1,13 +1,14 @@
 version: '3.8'
 
 services:
-  docker_service_monitor:
+  service_monitor:
     build: .
-    container_name: main
+    image: service_monitor:latest
+    container_name: service_monitor_main
     restart: always
     ports:
       - "1280:3000"
     environment:
-      - PORT=3000
+      PORT: 3000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
