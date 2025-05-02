@@ -1,19 +1,30 @@
+const express = require('express');
 const Docker = require('dockerode');
+const path = require('path');
+
+const app = express();
 const docker = new Docker({ socketPath: '/var/run/docker.sock' });
 
-docker.listContainers({ all: true }, (err, containers) => {
-    if (err) {
-        console.error('Ошибка при получении контейнеров:', err);
-        return;
-    }
+const PORT = process.env.PORT || 3000;
 
-    if (containers.length === 0) {
-        console.log('Контейнеры не найдены.');
-        return;
-    }
+app.use(express.static(path.join(__dirname, 'webpage')));
 
-    console.log('Список контейнеров:');
-    containers.forEach(container => {
-        console.log(`- ${container.Names[0]} [${container.State}]`);
-    });
+app.get('/containers', async (req, res) => {
+    try {
+        const containers = await docker.listContainers({ all: true });
+        const simplified = containers.map(c => ({
+            id: c.Id,
+            name: c.Names[0].replace('/', ''),
+            image: c.Image,
+            state: c.State,
+            status: c.Status,
+        }));
+        res.json(simplified);
+    } catch (err) {
+        res.status(500).json({ error: 'Ошибка получения контейнеров', details: err.message });
+    }
+});
+
+app.listen(PORT, () => {
+    console.log(`Сервер запущен на порту ${PORT}`);
 });
