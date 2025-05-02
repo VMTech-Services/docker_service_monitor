@@ -12,8 +12,6 @@ jobs:
   deploy:
     name: Build & deploy with docker-compose
     runs-on: [self-hosted, windows]
-    env:
-      COMPOSE_PROJECT_NAME: docker_service_monitor
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
