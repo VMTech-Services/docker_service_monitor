@@ -4,7 +4,7 @@ services:
   service_monitor:
     build: .
     image: service_monitor:latest
-    container_name: service_monitor_main
+    container_name: docker_service_monitor
     restart: always
     ports:
       - "1280:3000"
