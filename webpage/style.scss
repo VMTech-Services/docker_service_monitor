@@ -133,3 +133,12 @@ footer {
         justify-content: center;
     }
 }
+
+a{
+    color: #fff;
+    transition: 0.2s;
+
+    &:hover{
+        color: var(--docker-color);
+    }
+}
