@@ -21,9 +21,9 @@ jobs:
       - name: Stop and remove existing containers
         shell: powershell
         run: |
-          docker-compose down --remove-orphans
+          docker compose down --remove-orphans
 
       - name: Build and start new container
         shell: powershell
         run: |
-          command: docker-compose up -d --build --no-cache 
+          command: docker compose up -d --build --no-cache 
