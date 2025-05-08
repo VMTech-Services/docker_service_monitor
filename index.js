@@ -13,7 +13,7 @@ app.use('/', express.static(path.join(__dirname, 'webpage')));
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
-// Объект для хранения логов контейнеров
+// Хранение логов контейнеров
 const containerLogs = {};
 
 async function simplifyContainerInfo(inspectData) {
@@ -44,17 +44,6 @@ wss.on('connection', async ws => {
             list.map(c => docker.getContainer(c.Id).inspect().then(simplifyContainerInfo))
         );
         ws.send(JSON.stringify({ type: 'initial', data: infos }));
-
-        // Отправляем последние 50 логов каждого контейнера
-        for (const id in containerLogs) {
-            if (containerLogs[id]) {
-                ws.send(JSON.stringify({
-                    type: 'log',
-                    id: id,
-                    log: containerLogs[id].join('\n')
-                }));
-            }
-        }
     } catch (err) {
         ws.send(JSON.stringify({ type: 'error', message: err.message }));
     }

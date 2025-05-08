@@ -43,9 +43,10 @@ header {
 
 main {
     display: flex;
-    flex-direction: column;
-    align-items: start;
+    flex-direction: row;
+    align-items: center;
     gap: 0.5em;
+    flex-wrap: wrap;
 
     flex: 1 0 auto;
 

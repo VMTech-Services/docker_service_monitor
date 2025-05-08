@@ -10,20 +10,20 @@ function upsertContainer(c) {
         elem.dataset.id = c.id;
 
         elem.innerHTML = `
-      <div class="header-field">
-        <span class="label"></span>
-        <span class="status-indicator"></span>
-      </div>
-      <div class="body-field">
-        <div><strong>Image:</strong> <span class="val-image"></span></div>
-        <div><strong>Created:</strong> <span class="val-created"></span></div>
-        <div><strong>Uptime:</strong> <span class="val-uptime"></span></div>
-        <div><strong>Logs:</strong></div>
-        <div class="logs-container">
-          <div class="logs"></div>
-        </div>
-      </div>
-    `;
+                    <div class="header-field">
+                        <span class="label"></span>
+                        <span class="status-indicator"></span>
+                    </div>
+                    <div class="body-field">
+                        <div><strong>Image:</strong> <span class="val-image"></span></div>
+                        <div><strong>Created:</strong> <span class="val-created"></span></div>
+                        <div><strong>Uptime:</strong> <span class="val-uptime"></span></div>
+                        <div><strong>Logs:</strong></div>
+                        <div class="logs-container">
+                            <div class="logs"></div>
+                        </div>
+                    </div>
+                `;
         main.appendChild(elem);
 
         record = { elem, data: {}, logs: [] };
