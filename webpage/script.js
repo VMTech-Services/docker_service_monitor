@@ -18,11 +18,15 @@ function upsertContainer(c) {
         <div><strong>Image:</strong> <span class="val-image"></span></div>
         <div><strong>Created:</strong> <span class="val-created"></span></div>
         <div><strong>Uptime:</strong> <span class="val-uptime"></span></div>
+        <div><strong>Logs:</strong></div>
+        <div class="logs-container">
+          <div class="logs"></div>
+        </div>
       </div>
     `;
         main.appendChild(elem);
 
-        record = { elem, data: {} };
+        record = { elem, data: {}, logs: [] };
         containersMap.set(c.id, record);
     }
 
@@ -55,6 +59,26 @@ function formatRunningFor(sec) {
     return `${h}:${m}:${s}`;
 }
 
+function addLog(containerId, log) {
+    const record = containersMap.get(containerId);
+    if (record) {
+        const logsContainer = record.elem.querySelector('.logs');
+        if (logsContainer) {
+            // Добавляем новый лог
+            const logElem = document.createElement('div');
+            logElem.className = 'log-entry';
+            logElem.innerText = log;
+            logsContainer.appendChild(logElem);
+
+            // Ограничиваем количество логов до 50
+            const logs = logsContainer.querySelectorAll('.log-entry');
+            if (logs.length > 50) {
+                logs[0].remove();  // Удаляем самый старый лог
+            }
+        }
+    }
+}
+
 setInterval(() => {
     containersMap.forEach(({ elem, data }) => {
         if (data.state === 'running') {
@@ -77,6 +101,9 @@ ws.onmessage = evt => {
             break;
         case 'remove':
             removeContainer(msg.id);
+            break;
+        case 'log':
+            addLog(msg.id, msg.log);
             break;
     }
 };

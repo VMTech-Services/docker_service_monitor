@@ -13,6 +13,9 @@ app.use('/', express.static(path.join(__dirname, 'webpage')));
 const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
+// Объект для хранения логов контейнеров
+const containerLogs = {};
+
 async function simplifyContainerInfo(inspectData) {
     const { Id, Name, Config, Created, State } = inspectData;
     return {
@@ -41,6 +44,17 @@ wss.on('connection', async ws => {
             list.map(c => docker.getContainer(c.Id).inspect().then(simplifyContainerInfo))
         );
         ws.send(JSON.stringify({ type: 'initial', data: infos }));
+
+        // Отправляем последние 50 логов каждого контейнера
+        for (const id in containerLogs) {
+            if (containerLogs[id]) {
+                ws.send(JSON.stringify({
+                    type: 'log',
+                    id: id,
+                    log: containerLogs[id].join('\n')
+                }));
+            }
+        }
     } catch (err) {
         ws.send(JSON.stringify({ type: 'error', message: err.message }));
     }
@@ -77,6 +91,39 @@ docker.getEvents({}, (err, stream) => {
             broadcast({ type: 'update', data: info });
         } catch (e) {
             console.error('Inspect error:', e);
+        }
+
+        // Получаем логи контейнера
+        if (action === 'start' || action === 'restart') {
+            docker.getContainer(id).logs({
+                follow: true,
+                stdout: true,
+                stderr: true
+            }, (err, stream) => {
+                if (err) return console.error(`Error fetching logs for container ${id}:`, err);
+
+                stream.on('data', (data) => {
+                    const log = data.toString();
+
+                    // Сохраняем логи для контейнера
+                    if (!containerLogs[id]) {
+                        containerLogs[id] = [];
+                    }
+                    containerLogs[id].push(log);
+
+                    // Ограничиваем логи до 50 последних записей
+                    if (containerLogs[id].length > 50) {
+                        containerLogs[id].shift(); // Удаляем самый старый лог
+                    }
+
+                    // Отправляем новый лог клиентам
+                    broadcast({
+                        type: 'log',
+                        id,
+                        log
+                    });
+                });
+            });
         }
     });
 });
