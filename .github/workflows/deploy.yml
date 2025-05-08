@@ -26,4 +26,4 @@ jobs:
       - name: Build and start new container
         shell: powershell
         run: |
-          command: docker-compose up --build --no-cache -d
+          command: docker-compose up -d --build --no-cache 
