@@ -42,74 +42,77 @@ header {
 }
 
 main {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5em;
-    flex-wrap: wrap;    
 
     flex: 1 0 auto;
 
-    .container {
-        box-sizing: border-box;
-        border: 2px solid #ccc;
-        border-radius: 0.75em;
-        padding: 0.75em;
-        width: 100%;
-        width: fit-content;
+    .main {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0.5em;
+        flex-wrap: wrap;
 
-        .header-field {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 0.5em;
+        .container {
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 0.75em;
+            padding: 0.75em;
+            width: 100%;
+            width: fit-content;
 
-            .label {
-                font-weight: bold;
-                font-size: 1.1em;
+            .header-field {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 0.5em;
+
+                .label {
+                    font-weight: bold;
+                    font-size: 1.1em;
+                }
+
+                .status-indicator {
+                    padding: 0.5em;
+                    border-radius: 0.5em;
+                    color: white;
+                    text-transform: uppercase;
+
+                    &.created {
+                        background: #6c757d;
+                    }
+
+                    &.running {
+                        background: #28a745;
+                    }
+
+                    &.paused {
+                        background: #ffc107;
+                        color: #212529;
+                    }
+
+                    &.restarting {
+                        background: #17a2b8;
+                    }
+
+                    &.exited {
+                        background: #dc3545;
+                    }
+
+                    &.dead {
+                        background: #343a40;
+                    }
+
+                    &.removing {
+                        background: #6610f2;
+                    }
+                }
             }
 
-            .status-indicator {
-                padding: 0.5em;
-                border-radius: 0.5em;
-                color: white;
-                text-transform: uppercase;
-
-                &.created {
-                    background: #6c757d;
-                }
-
-                &.running {
-                    background: #28a745;
-                }
-
-                &.paused {
-                    background: #ffc107;
-                    color: #212529;
-                }
-
-                &.restarting {
-                    background: #17a2b8;
-                }
-
-                &.exited {
-                    background: #dc3545;
-                }
-
-                &.dead {
-                    background: #343a40;
-                }
-
-                &.removing {
-                    background: #6610f2;
-                }
+            .body-field {
+                margin-top: 0.5em;
+                font-size: 0.9em;
+                line-height: 1.4;
             }
-        }
-
-        .body-field {
-            margin-top: 0.5em;
-            font-size: 0.9em;
-            line-height: 1.4;
         }
     }
 }
@@ -136,11 +139,11 @@ footer {
     }
 }
 
-a{
+a {
     color: #fff;
     transition: 0.2s;
 
-    &:hover{
+    &:hover {
         color: var(--docker-color);
     }
 }

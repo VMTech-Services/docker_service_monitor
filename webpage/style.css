@@ -39,14 +39,16 @@ header h1 {
 }
 
 main {
+  flex: 1 0 auto;
+}
+main .main {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 0.5em;
   flex-wrap: wrap;
-  flex: 1 0 auto;
 }
-main .container {
+main .main .container {
   box-sizing: border-box;
   border: 2px solid #ccc;
   border-radius: 0.75em;
@@ -54,45 +56,45 @@ main .container {
   width: 100%;
   width: fit-content;
 }
-main .container .header-field {
+main .main .container .header-field {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 0.5em;
 }
-main .container .header-field .label {
+main .main .container .header-field .label {
   font-weight: bold;
   font-size: 1.1em;
 }
-main .container .header-field .status-indicator {
+main .main .container .header-field .status-indicator {
   padding: 0.5em;
   border-radius: 0.5em;
   color: white;
   text-transform: uppercase;
 }
-main .container .header-field .status-indicator.created {
+main .main .container .header-field .status-indicator.created {
   background: #6c757d;
 }
-main .container .header-field .status-indicator.running {
+main .main .container .header-field .status-indicator.running {
   background: #28a745;
 }
-main .container .header-field .status-indicator.paused {
+main .main .container .header-field .status-indicator.paused {
   background: #ffc107;
   color: #212529;
 }
-main .container .header-field .status-indicator.restarting {
+main .main .container .header-field .status-indicator.restarting {
   background: #17a2b8;
 }
-main .container .header-field .status-indicator.exited {
+main .main .container .header-field .status-indicator.exited {
   background: #dc3545;
 }
-main .container .header-field .status-indicator.dead {
+main .main .container .header-field .status-indicator.dead {
   background: #343a40;
 }
-main .container .header-field .status-indicator.removing {
+main .main .container .header-field .status-indicator.removing {
   background: #6610f2;
 }
-main .container .body-field {
+main .main .container .body-field {
   margin-top: 0.5em;
   font-size: 0.9em;
   line-height: 1.4;
