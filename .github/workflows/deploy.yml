@@ -12,11 +12,18 @@ jobs:
   deploy:
     name: Build & deploy with docker-compose
     runs-on: [self-hosted, windows]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
           fetch-depth: 1
+
+      - name: Clean Docker builder cache
+        shell: powershell
+        run: |
+          docker builder prune -af
+          docker system prune -af --volumes
 
       - name: Stop and remove existing containers
         shell: powershell
@@ -26,4 +33,6 @@ jobs:
       - name: Build and start new container
         shell: powershell
         run: |
-          docker-compose up -d --build --force-recreate
+          $env:DOCKER_BUILDKIT=0
+          docker-compose build --no-cache
+          docker-compose up -d --force-recreate
